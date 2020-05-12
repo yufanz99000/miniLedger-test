@@ -1,10 +1,14 @@
 <template>
-    <div>Labels.vue</div>
+    <div>Labels.vue
+        <Nav></Nav>
+    </div>
 </template>
 
 <script lang="ts">
+
   export default {
-    name: 'Lables'
+    name: 'Labels',
+
   };
 </script>
 
