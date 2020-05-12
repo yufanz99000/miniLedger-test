@@ -1,7 +1,8 @@
 <template>
-    <div class="nav-wrapper">
-        <div class="content">Statistics.vue</div>
-        <Nav></Nav>
+    <div >
+        <Layout>
+            <p>newStatistics.vue</p>
+        </Layout>
     </div>
 </template>
 
@@ -14,14 +15,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .nav-wrapper{
-        border: 3px solid white;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    .content{
-        overflow: auto;
-        flex-grow: 1;
-    }
+
 </style>
