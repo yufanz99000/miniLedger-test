@@ -15,7 +15,7 @@
 
 <style lang="scss" scoped>
     .nav-wrapper{
-        border: 3px solid blue;
+
         display: flex;
         flex-direction: column;
         height: 100vh;

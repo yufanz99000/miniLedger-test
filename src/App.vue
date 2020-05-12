@@ -9,13 +9,14 @@
 
 
 <style lang="scss">
-  body{
+  *{
     margin:0; padding:0;
     box-sizing: border-box;
   }
    @import "~@/assets/styles/test.scss";
    body {
      background: $pink;
+     line-height: 1.5;
    }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -29,6 +30,8 @@
   padding: 30px;
 
   a {
+    text-decoration: none;
+    color: inherit;
     font-weight: bold;
     color: #2c3e50;
 
