@@ -29,6 +29,7 @@
     @import "~@/assets/styles/helper.scss";
 
     nav{
+        @extend %outerShadow;
         display: flex;
         box-shadow: 0 0 3px rgba(0,0,0,0.3);
         flex-direction: row;
@@ -49,5 +50,4 @@
             color: $color-highlight;
         }
     }
-
 </style>

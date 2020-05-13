@@ -5,6 +5,14 @@
 a {
   text-decoration: none;
   color: inherit;
-  font-weight: bold;
-  color: #2c3e50;
+}
+
+ul,li {
+  list-style: none;
+}
+button, input{
+  font: inherit;
+}
+:focus{ //input输入框
+  outline: none;
 }

@@ -11,12 +11,13 @@
   @import "~@/assets/styles/helper.scss";
 
    body {
-     background: lightblue;
+     /*background: lightblue;*/
      line-height: 1.5;
      font-family: $font-hei;
      -webkit-font-smoothing: antialiased;
      -moz-osx-font-smoothing: grayscale;
      color: #333;
+     font-size: 16px;
    }
 
 #nav {
