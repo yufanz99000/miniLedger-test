@@ -1,38 +1,63 @@
 <template>
     <div class="tags">
         <div class="newTag">
-            <button>新增标签</button>
+            <button @click="create">新增标签</button>
         </div>
         <ul class="current">
-            <li>衣</li>
-            <li>食</li>
-            <li>住</li>
-            <li>行</li>
-            <li>购物</li>
-            <li>健康</li>
-            <li>教育</li>
-            <li>娱乐</li>
+            <li v-for="tag in dataSource" :key="tag"
+                :class="{selected: selectedTags.indexOf(tag) >= 0}"
+                @click="toggle(tag)">{{tag}}
+            </li>
         </ul>
     </div>
 </template>
 
 <script lang="ts">
-    export default {
-        name: 'Tags'
-    };
+    import Vue from 'vue';
+    import {Component, Prop} from 'vue-property-decorator';
+
+    @Component
+    export default class Tags extends Vue {
+
+        @Prop() readonly dataSource: string[] | undefined;
+
+        selectedTags: string[] = [];
+
+        toggle(tag: string) {
+            const index = this.selectedTags.indexOf(tag);
+            if (index >= 0) { //点击的时候已经在selectedtags里面了
+                this.selectedTags.splice(index, 1);
+            } else {
+                this.selectedTags.push(tag);
+            }
+        }
+
+        create() {
+            window.prompt('请输入标签名')
+            if(name === ''){
+                window.alert('标签名字不能为空')
+            } else if (this.dataSource){
+                this.$emit('update:dataSource',
+                    [...this.dataSource, name]);
+            }
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helper.scss";
+
     .tags {
         font-size: 14px;
         padding: 16px;
         display: flex;
         flex-grow: 1;
         flex-direction: column-reverse;
+
         > .current {
             display: flex;
             flex-wrap: wrap;
+
             > li {
                 background: #d9d9d9;
                 $h: 24px;
@@ -42,8 +67,14 @@
                 padding: 0 16px;
                 margin-right: 12px;
                 margin-top: 4px;
+
+                &.selected {
+                    background: orange;
+                    color: white;
+                }
             }
         }
+
         > .newTag {
             padding-top: 16px;
 
