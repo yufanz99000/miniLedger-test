@@ -1,7 +1,7 @@
 <template>
     <div >
         <Layout>
-            <p>newLabels.vue</p>
+            <p>账本.vue</p>
         </Layout>
     </div>
 </template>
