@@ -18,9 +18,8 @@
 
     @Component
     export default class Tags extends Vue {
-
-        @Prop() readonly dataSource: string[] | undefined;
-
+        @Prop(Array) readonly dataSource: string[] | undefined;
+        //告诉datasource去读取money.vue里tags的内容
         selectedTags: string[] = [];
 
         toggle(tag: string) {
@@ -30,6 +29,7 @@
             } else {
                 this.selectedTags.push(tag);
             }
+            this.$emit('update:value', this.selectedTags)
         }
 
         create() {
