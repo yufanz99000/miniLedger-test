@@ -15,14 +15,17 @@
     import Tags from '@/components/Money/Tags.vue';
     import {Component, Watch} from 'vue-property-decorator';
     import recordListModel from '@/models/recordListModel';
+    import tagListModel from '@/models/tagListModel';
 
     const recordList = recordListModel.fetch();
+    const tagList = tagListModel.fetch();
 
     @Component({
         components: {Tags, Notes, Types, NumberPad}
     })
     export default class Money extends Vue {
-        tags = ['衣', '食', '住', '行'];
+        tags = tagList;
+
         recordList: RecordItem[] = recordList;
         record: RecordItem = {
             tags: [], notes: '', type: '-', amount: 0
@@ -45,7 +48,7 @@
             //把新生成的record深拷贝成一个新的对象
             record2.createdAt = new Date();
             this.recordList.push(record2);
-            console.log(this.recordList);
+
         }
 
         @Watch('recordList')
