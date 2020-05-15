@@ -3,19 +3,24 @@
         <label class="notes">
             <span class="name">备注</span>
             <input type="text"
-                  v-model="value"
-                   placeholder="在这里输入备注">
+                   :value="value"
+                  @input="onValueChanged($event.targat.value)"
+                   :placeholder="this.placeholder">
         </label>
     </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue'
-    import {Component, Watch} from 'vue-property-decorator'
+    import {Component, Prop, Watch} from 'vue-property-decorator'
 
     @Component
     export default class Notes extends Vue{
-        value= '';
+        @Prop({default: ''}) readonly value!: string;
+
+        @Prop({required: true}) fieldName!: string;
+        @Prop() placeholder?: string;
+
         @Watch('value')
         onValueChanged(newVal: string, oldVal: string){
             this.$emit('update:value', newVal)
@@ -27,7 +32,6 @@
     @import "~@/assets/styles/helper.scss";
     .notes {
         font-size: 14px;
-        background: #f5f5f5;
         padding-left: 16px;
         display: flex;
         align-items: center;
@@ -37,7 +41,7 @@
         }
 
         input {
-            height: 64px;
+            height: 40px;
             flex-grow: 1;
             background: transparent;
             border: none;

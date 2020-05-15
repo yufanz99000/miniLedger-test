@@ -35,7 +35,7 @@
     @import "~@/assets/styles/helper.scss";
 
     .types {
-        /*background: PapayaWhip;*/
+        background: PapayaWhip;
         display: flex;
         text-align: center;
         font-size: 24px;

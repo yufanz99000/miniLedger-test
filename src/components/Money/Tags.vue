@@ -53,7 +53,7 @@
         display: flex;
         flex-grow: 1;
         flex-direction: column-reverse;
-
+        background: white;
         > .current {
             display: flex;
             flex-wrap: wrap;

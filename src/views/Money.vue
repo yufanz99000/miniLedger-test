@@ -2,7 +2,10 @@
     <Layout class-prefix="layout">
         <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
         <Types :value.sync="record.type"/>
-        <Notes @update:value="onUpdateNotes"/>
+
+        <div class="notes">
+            <Notes field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+        </div>
         <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
     </Layout>
 </template>
@@ -63,6 +66,9 @@
         /*border: 2px solid red;*/
         display: flex;
         flex-direction: column-reverse;
+    }
+    .notes {
+        padding: 12px 0;
     }
 </style>
 
