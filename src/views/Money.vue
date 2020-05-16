@@ -4,7 +4,8 @@
         <Types :value.sync="record.type"/>
 
         <div class="notes">
-            <Notes field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+            <Notes field-name="备注" placeholder="在这里输入备注"
+                   @update:value="onUpdateNotes"/>
         </div>
         <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
     </Layout>
@@ -16,7 +17,7 @@
     import Types from '@/components/Money/Types.vue';
     import Notes from '@/components/Money/Notes.vue';
     import Tags from '@/components/Money/Tags.vue';
-    import {Component, Watch} from 'vue-property-decorator';
+    import {Component} from 'vue-property-decorator';
     import recordListModel from '@/models/recordListModel';
     import tagListModel from '@/models/tagListModel';
 
@@ -54,10 +55,6 @@
 
         }
 
-        @Watch('recordList')
-        onRecordChanged() {
-            recordListModel.save(this.recordList);
-        }
     }
 </script>
 

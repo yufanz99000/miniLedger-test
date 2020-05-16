@@ -4,9 +4,9 @@
             <button @click="create">新增标签</button>
         </div>
         <ul class="current">
-            <li v-for="tag in dataSource" :key="tag"
+            <li v-for="tag in dataSource" :key="tag.id"
                 :class="{selected: selectedTags.indexOf(tag) >= 0}"
-                @click="toggle(tag)">{{tag}}
+                @click="toggle(tag)">{{tag.name}}
             </li>
         </ul>
     </div>
@@ -18,7 +18,7 @@
 
     @Component
     export default class Tags extends Vue {
-        @Prop(Array) readonly dataSource: string[] | undefined;
+        @Prop() readonly dataSource: string[] | undefined;
         //告诉datasource去读取money.vue里tags的内容
         selectedTags: string[] = [];
 

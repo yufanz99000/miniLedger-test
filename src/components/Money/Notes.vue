@@ -1,11 +1,11 @@
 <template>
     <div>
         <label class="notes">
-            <span class="name">备注</span>
+            <span class="name">{{this.fieldName}}</span>
             <input type="text"
                    :value="value"
                   @input="onValueChanged($event.targat.value)"
-                   :placeholder="this.placeholder">
+                   :placeholder="placeholder">
         </label>
     </div>
 </template>
@@ -17,11 +17,9 @@
     @Component
     export default class Notes extends Vue{
         @Prop({default: ''}) readonly value!: string;
-
         @Prop({required: true}) fieldName!: string;
         @Prop() placeholder?: string;
 
-        @Watch('value')
         onValueChanged(newVal: string, oldVal: string){
             this.$emit('update:value', newVal)
         }
