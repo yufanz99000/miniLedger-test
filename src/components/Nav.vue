@@ -47,7 +47,7 @@
             }
         }
         > .item.selected{
-            color: $color-highlight;
+            color: orange;
         }
     }
 </style>

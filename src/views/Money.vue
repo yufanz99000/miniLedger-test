@@ -1,13 +1,13 @@
 <template>
     <Layout class-prefix="layout">
-        <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
+        <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
         <Types :value.sync="record.type"/>
 
         <div class="notes">
             <Notes field-name="备注" placeholder="在这里输入备注"
                    @update:value="onUpdateNotes"/>
         </div>
-        <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+        <Tags/>
     </Layout>
 </template>
 
@@ -18,43 +18,31 @@
     import Notes from '@/components/Money/Notes.vue';
     import Tags from '@/components/Money/Tags.vue';
     import {Component} from 'vue-property-decorator';
-    import recordListModel from '@/models/recordListModel';
-    import tagListModel from '@/models/tagListModel';
 
-    const recordList = recordListModel.fetch();
-    const tagList = tagListModel.fetch();
 
     @Component({
         components: {Tags, Notes, Types, NumberPad}
     })
     export default class Money extends Vue {
-        tags = tagList;
+        get recordList() {
+            return this.$store.state.recordList;
+        }
 
-        recordList: RecordItem[] = recordList;
         record: RecordItem = {
             tags: [], notes: '', type: '-', amount: 0
         };
 
-        onUpdateTags(value: string[]) {
-            this.record.tags = value;
+        created() { //在页面加载时
+            this.$store.commit('fetchRecords');
         }
 
         onUpdateNotes(value: string) {
             this.record.notes = value;
         }
 
-        onUpdateAmount(value: string) {
-            this.record.amount = parseFloat(value);
-        }
-
         saveRecord() {
-            const record2: RecordItem = recordListModel.clone(this.record);
-            //把新生成的record深拷贝成一个新的对象
-            record2.createdAt = new Date();
-            this.recordList.push(record2);
-
+            this.$store.commit('createRecord', this.record);
         }
-
     }
 </script>
 
@@ -64,6 +52,7 @@
         display: flex;
         flex-direction: column-reverse;
     }
+
     .notes {
         padding: 12px 0;
     }
