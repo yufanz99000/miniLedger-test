@@ -17,17 +17,14 @@
     export default class Types extends Vue{
         //type = '-' //-表示支出， +表示收入
         @Prop() readonly  value!: string
-        //告诉value去读取money.vue里record.type
+        @Prop() classPrefix?: string
         selectType(type: string) {
             if (type !== '-' && type !== '+'){
                 throw new Error('type is undefined')
             }
             this.$emit('update:value', type)
         }
-        // @Watch('type')
-        // onTypeChanged(value: string) {
-        //     this.$emit('update-value', value)
-        // }
+
     }
 </script>
 
@@ -35,7 +32,7 @@
     @import "~@/assets/styles/helper.scss";
 
     .types {
-        background: PapayaWhip;
+        /*background: PapayaWhip;*/
         display: flex;
         text-align: center;
         font-size: 24px;

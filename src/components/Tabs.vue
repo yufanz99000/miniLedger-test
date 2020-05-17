@@ -1,0 +1,57 @@
+<template>
+    <ul class="tabs" :class="{[classPrefix+'-tabs']: classPrefix}">
+        <li v-for="item in dataSource" :key="item.value" class="tabs-item"
+            :class="liClass(item)"
+            @click="select(item)">{{item.text}}</li>
+    </ul>
+</template>
+
+<script lang="ts">
+    import Vue from 'vue';
+    import {Component, Prop} from 'vue-property-decorator';
+
+    type DtaSourceItem = {text: string; value: string}
+
+    @Component
+    export default class Tabs extends Vue {
+        @Prop() dataSource!: DtaSourceItem[];
+        @Prop() readonly value!: string; //选中的那一项
+        @Prop() classPrefix?: string;
+
+        liClass (item: DtaSourceItem) {
+            return {
+                [this.classPrefix+'-tabs-item']: this.classPrefix,
+                selected: item.value === this.value}
+            }
+
+        select(item: DtaSourceItem){
+            this.$emit('update:value', item.value);
+        }
+    }
+</script>
+
+<style lang="scss" scoped>
+    .tabs {
+        background: #C4C4C4;
+        display: flex;
+        text-align: center;
+        font-size: 24px;
+        &-item {
+            width: 50%;
+            height: 64px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            &.selected::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: #333;
+            }
+        }
+    }
+</style>
