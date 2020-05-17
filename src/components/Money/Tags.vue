@@ -4,7 +4,7 @@
             <button @click="create">新增标签</button>
         </div>
         <ul class="current">
-            <li v-for="tag in dataSource" :key="tag.id"
+            <li v-for="tag in tagList" :key="tag.id"
                 :class="{selected: selectedTags.indexOf(tag) >= 0}"
                 @click="toggle(tag)">{{tag.name}}
             </li>
@@ -14,13 +14,22 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component, Prop} from 'vue-property-decorator';
+    import {Component} from 'vue-property-decorator';
+    import {mixins} from 'vue-class-component';
+    import TagHelper from '@/mixins/TagHelper';
 
     @Component
-    export default class Tags extends Vue {
-        @Prop() readonly dataSource: string[] | undefined;
-        //告诉datasource去读取money.vue里tags的内容
+    export default class Tags extends mixins(TagHelper) {
+
         selectedTags: string[] = [];
+
+        get tagList() {
+            return this.$store.state.tagList;
+        }
+
+        created() {
+            this.$store.commit('fetchTags');
+        }
 
         toggle(tag: string) {
             const index = this.selectedTags.indexOf(tag);
@@ -29,17 +38,7 @@
             } else {
                 this.selectedTags.push(tag);
             }
-            this.$emit('update:value', this.selectedTags)
-        }
-
-        create() {
-            const name = window.prompt('请输入标签名')
-            if(name === ''){
-                window.alert('标签名字不能为空')
-            } else if (this.dataSource){
-                this.$emit('update:dataSource',
-                    [...this.dataSource, name]);
-            }
+            this.$emit('update:value', this.selectedTags);
         }
     }
 </script>
@@ -54,6 +53,7 @@
         flex-grow: 1;
         flex-direction: column-reverse;
         background: white;
+
         > .current {
             display: flex;
             flex-wrap: wrap;
