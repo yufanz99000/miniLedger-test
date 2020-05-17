@@ -6,7 +6,7 @@
             <span class="rightIcon"></span>
         </div>
         <div class="form-wrapper">
-            <Notes :value="tag.name"
+            <Notes :value="currentTag.name"
                    @update:value="update"
                    field-name="标签名" placeholder="请输入标签名"/>
         </div>
@@ -34,7 +34,7 @@
         created() {
             const id = this.$route.params.id;
             this.$store.commit('fetchTags');
-            this.$store.commit('setCurrentTag');
+            this.$store.commit('setCurrentTag',id);
             if (!this.currentTag) {
                 this.$router.replace('/404');
             }
