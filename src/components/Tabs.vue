@@ -10,21 +10,21 @@
     import Vue from 'vue';
     import {Component, Prop} from 'vue-property-decorator';
 
-    type DtaSourceItem = {text: string; value: string}
+    type DataSourceItem = {text: string; value: string}
 
     @Component
     export default class Tabs extends Vue {
-        @Prop() dataSource!: DtaSourceItem[];
+        @Prop() dataSource!: DataSourceItem[];
         @Prop() readonly value!: string; //选中的那一项
         @Prop() classPrefix?: string;
 
-        liClass (item: DtaSourceItem) {
+        liClass (item: DataSourceItem) {
             return {
                 [this.classPrefix+'-tabs-item']: this.classPrefix,
                 selected: item.value === this.value}
             }
 
-        select(item: DtaSourceItem){
+        select(item: DataSourceItem){
             this.$emit('update:value', item.value);
         }
     }
