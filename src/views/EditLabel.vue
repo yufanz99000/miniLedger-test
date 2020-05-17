@@ -20,7 +20,6 @@
 <script lang="ts">
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
-    import tagListModel from '@/models/tagListModel';
     import Notes from '@/components/Money/Notes.vue';
     import Button from '@/components/Button.vue';
 
@@ -28,31 +27,28 @@
         components: {Button, Notes}
     })
     export default class EditLabel extends Vue {
-        tag?: { id: string; name: string } = undefined;
+        get currentTag(){
+            return this.$store.state.currentTag;
+        }
 
         created() {
             const id = this.$route.params.id;
-            tagListModel.fetch();
-            const tags = tagListModel.data;
-            const tag = tags.filter(t => t.id === id)[0];
-            if (tag) {
-                this.tag = tag;
-            } else {
+            this.$store.commit('fetchTags');
+            this.$store.commit('setCurrentTag');
+            if (!this.currentTag) {
                 this.$router.replace('/404');
             }
         }
         update(name: string) {
-            if (this.tag) {
-                tagListModel.update(this.tag.id, name)
+            if (this.currentTag) {
+                this.$store.commit('updateTag', {
+                    id:this.currentTag.id, name
+                });
             }
         }
         remove() {
-            if (this.tag) {
-                if (tagListModel.remove(this.tag.id)) {
-                    this.$router.back();
-                } else {
-                    window.alert('删除失败');
-                }
+            if (this.currentTag) {
+               this.$store.commit('removeTag', this.currentTag.id)
             }
         }
 
