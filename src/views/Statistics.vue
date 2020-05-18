@@ -3,7 +3,7 @@
         <Layout>
             <Tabs class-prefix="type" :data-source="typeList" :value.sync="type"/>
 <!--            <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>-->
-            <ol>
+            <ol v-if="groupedList.length > 0">
                 <li v-for="(group, index) in groupedList" :key="index">
                     <h3 class="title">{{beautify(group.title)}}
                         <span>¥{{group.total}}</span>
@@ -17,6 +17,7 @@
                     </ol>
                 </li>
             </ol>
+            <div v-else class="noResult">目前没有记录</div>
         </Layout>
     </div>
 </template>
@@ -35,7 +36,7 @@
 
     export default class Statistics extends Vue {
         tagString(tags: Tag[]) {
-            return tags.length === 0 ? '无' : tags.join(',');
+            return tags.length === 0 ? '无' : tags.map(t=>t.name).join('，');
         }
 
         beautify(string: string) {
@@ -60,12 +61,13 @@
 
         get groupedList() {
             const {recordList} = this;
-            if (recordList.length === 0) {return [];}
 
             const newList = clone(recordList)
                 .filter(r => r.type === this.type) //分支出和收入
                 .sort((a, b) =>
                 dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+
+            if (newList.length === 0) {return [];} //判断filter后的数组长度是否为0
 
             type Result = { title: string; total?: number; items: RecordItem[] }[]
             const result: Result = [{
@@ -107,20 +109,23 @@
 </script>
 
 <style lang="scss" scoped>
-    ::v-deep .type-tabs-item {
-        background: white;
-
-        &.selected {
-            background: orange;
-
-            &::after { //如果选中取消下划线
-                display: none;
+    .noResult{
+        text-align: center;
+        padding: 16px;
+    }
+    ::v-deep {
+        .type-tabs-item {
+            background: white;
+            &.selected {
+                background: orange;
+                &::after {
+                    display: none;
+                }
             }
         }
-    }
-
-    ::v-deep .interval-tabs-item {
-        height: 48px;
+        .interval-tabs-item {
+            height: 48px;
+        }
     }
 
     %item {

@@ -2,7 +2,7 @@
     <nav>
         <router-link to="/labels" class="item" active-class="selected">
             <Icon class="icon" name="ledger"/>
-            账本
+            标签
         </router-link>
 
         <router-link to="/money" class="item" active-class="selected">
