@@ -17,12 +17,16 @@
         @Prop() dataSource!: DataSourceItem[];
         @Prop() readonly value!: string; //选中的那一项
         @Prop() classPrefix?: string;
+        @Prop({type: String, default: '64px'})
+        height!: string;
 
-        liClass (item: DataSourceItem) {
+        liClass(item: DataSourceItem) {
             return {
-                [this.classPrefix+'-tabs-item']: this.classPrefix,
-                selected: item.value === this.value}
+                [this.classPrefix + '-tabs-item']: this.classPrefix,
+                selected: item.value === this.value
             }
+        }
+
 
         select(item: DataSourceItem){
             this.$emit('update:value', item.value);
