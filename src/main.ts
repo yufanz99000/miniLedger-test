@@ -6,6 +6,8 @@ import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import Icon from '@/components/Icon.vue';
+// @ts-ignore
+import QRcode from '../public/QRcode.png';
 
 Vue.config.productionTip = false;
 
@@ -28,7 +30,7 @@ window.onload = function () {
 if (document.documentElement.clientWidth > 500) {
     window.alert('请使用手机打开此页面，以保证浏览效果');
     const img = document.createElement('img');
-    img.src = '/QRcode.png';
+    img.src = QRcode;
     img.style.position = 'fixed';
     img.style.left = '50%';
     img.style.top = '50%';
