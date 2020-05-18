@@ -2,7 +2,7 @@
     <div>
         <Layout>
             <Tabs class-prefix="type" :data-source="typeList" :value.sync="type"/>
-            <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
+<!--            <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>-->
             <ol>
                 <li v-for="(group, index) in groupedList" :key="index">
                     <h3 class="title">{{beautify(group.title)}}
@@ -25,7 +25,6 @@
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import Tabs from '@/components/Tabs.vue';
-    import intervalList from '@/constants/intervalList';
     import typeList from '@/constants/typeList';
     import clone from '@/lib/clone';
     import dayjs from 'dayjs';
@@ -63,12 +62,15 @@
             const {recordList} = this;
             if (recordList.length === 0) {return [];}
 
-            const newList = clone(recordList).sort((a, b) =>
+            const newList = clone(recordList)
+                .filter(r => r.type === this.type) //分支出和收入
+                .sort((a, b) =>
                 dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
 
             type Result = { title: string; total?: number; items: RecordItem[] }[]
             const result: Result = [{
                 title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'),
+                total: 0, //可以不用写因为已经初始化可以是undefined
                 items: [newList[0]]
             }];
 
@@ -81,6 +83,13 @@
                     result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
                 }
             }
+            result.map(group => { //已经分好支出和收入的group
+                group.total = group.items.reduce((sum, item) => {
+                    console.log(sum);
+                    console.log(item);
+                    return sum + item.amount
+                }, 0)
+            })
             return result;
         }
 
@@ -89,8 +98,8 @@
         }
 
         type = '-';
-        interval = 'day';
-        intervalList = intervalList;
+        // interval = 'day';
+        // intervalList = intervalList;
         typeList = typeList;
     }
 
